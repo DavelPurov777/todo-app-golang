@@ -1,4 +1,6 @@
-package service
+package repository
+
+import "github.com/jmoiron/sqlx"
 
 type Authorization interface {
 
@@ -18,6 +20,6 @@ type Repository struct {
 	TodoItem
 }
 
-func NewService(db *sqlx.DB) *Repository {
+func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{}
 }

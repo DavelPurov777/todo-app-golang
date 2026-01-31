@@ -1,6 +1,9 @@
 package repository
 
-import "github.com/jmoiron/sqlx"
+import (
+	"fmt"
+	"github.com/jmoiron/sqlx"
+)
 
 type Config struct {
 	Host string
@@ -11,7 +14,7 @@ type Config struct {
 	SSLMode string
 }
 
-func NewPostgresDB() (*sqlx.DB, error) {
+func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
 	db, err := sqlx.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 	cfg.Host, cfg.Port,cfg.Username, cfg.Password,cfg.DBName, cfg.SSLMode))
 
@@ -19,7 +22,7 @@ func NewPostgresDB() (*sqlx.DB, error) {
 		return nil, err
 	}
 
-	err := db.Ping()
+	err = db.Ping()
 	if err != nil {
 		return nil, err
 	}

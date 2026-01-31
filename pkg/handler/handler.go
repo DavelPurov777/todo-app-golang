@@ -1,12 +1,15 @@
 package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/DavelPurov777/todo-app-golang/pkg/service"
+)
 
 type Handler struct {
 	services *service.Service
 }
 
-func NewHandlers(services *service.Service) *Handler {
+func NewHandler(services *service.Service) *Handler {
 	return &Handler{services: services}
 }
 
