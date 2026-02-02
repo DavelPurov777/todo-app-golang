@@ -13,6 +13,7 @@ func NewHandler(services *service.Service) *Handler {
 	return &Handler{services: services}
 }
 
+// метод InitRoutes инициализирует все наши эндпоинты 
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 	auth := router.Group("/auth")
@@ -21,6 +22,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("sign-in", h.signIn)
 	}
 
+	// группа api будет использоваться для работы со списками и их задачами
 	api := router.Group("/api")
 	{
 		lists := api.Group("/lists")

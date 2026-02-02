@@ -2,7 +2,7 @@ package todo
 
 type User struct {
 	Id int `json:"-"`
-	Name string `json:"name" binding:"required"`	// binding:"required" эти теги валидируютт поля в теле запроса и являются
-	Username string `json:"username" binding:"required"` // реализацией фреймворка gin
+	Name string `json:"name" binding:"required"`
+	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }

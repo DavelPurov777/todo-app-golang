@@ -40,7 +40,7 @@ func main() {
 	services := service.NewService(repos);
 	handlers := handler.NewHandler(services);
 
-	srv := new(todo.Server) // TODO: тут не понял что импортируется под todo
+	srv := new(todo.Server)
 	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 		logrus.Fatalf("error occured while running HTTP server %s", err.Error())
 	}
@@ -49,5 +49,7 @@ func main() {
 func initConfig() error {
 	viper.AddConfigPath("configs")
 	viper.SetConfigName("config")
+
+	// ReadInConfig считывает значения конфигов и записывает их во внутренний объект viper, а возвращает только ошибку
 	return viper.ReadInConfig()
 }

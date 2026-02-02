@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 )
-
+// в этом файле логика подключения к БД
 const (
 	usersTable = "users"
 	todoListsTable = "todo_lists"
@@ -22,7 +22,7 @@ type Config struct {
 	SSLMode string
 }
 
-func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
+func NewPostgresDB(cfg Config) (*sqlx.DB, error) {	
 	db, err := sqlx.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 	cfg.Host, cfg.Port,cfg.Username, cfg.Password,cfg.DBName, cfg.SSLMode))
 

@@ -22,7 +22,7 @@ type Repository struct {
 	TodoList
 	TodoItem
 }
-
+// поскольку репозиторий должен работать с базой данных, передадим db *sqlx.DB в качестве параметра функции
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
