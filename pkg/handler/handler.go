@@ -23,7 +23,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	}
 
 	// группа api будет использоваться для работы со списками и их задачами
-	api := router.Group("/api")
+	api := router.Group("/api", h.userIdentity)
 	{
 		lists := api.Group("/lists")
 		{
