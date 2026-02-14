@@ -1,16 +1,17 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/DavelPurov777/todo-app-golang"
 	"github.com/gin-gonic/gin"
-	"net/http"
-) 
+)
 
 func (h *Handler) signUp(c *gin.Context) {
 	var input todo.User
 
 	if err := c.BindJSON(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, "invalid input body")
 		return
 	}
 
@@ -27,10 +28,10 @@ func (h *Handler) signUp(c *gin.Context) {
 
 type SignInInput struct {
 	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"` 
+	Password string `json:"password" binding:"required"`
 }
 
-func (h *Handler) signIn(c * gin.Context) {
+func (h *Handler) signIn(c *gin.Context) {
 	var input SignInInput
 
 	if err := c.BindJSON(&input); err != nil {

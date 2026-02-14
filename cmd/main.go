@@ -1,17 +1,19 @@
 package main
 
 import (
-	_ "github.com/lib/pq"
-	"github.com/sirupsen/logrus"
-	"github.com/joho/godotenv"
-	"github.com/spf13/viper"
-	"github.com/DavelPurov777/todo-app-golang"
-	"github.com/DavelPurov777/todo-app-golang/pkg/repository"
-	"github.com/DavelPurov777/todo-app-golang/pkg/service"
-	"github.com/DavelPurov777/todo-app-golang/pkg/handler"
+	"context"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/DavelPurov777/todo-app-golang"
+	"github.com/DavelPurov777/todo-app-golang/pkg/handler"
+	"github.com/DavelPurov777/todo-app-golang/pkg/repository"
+	"github.com/DavelPurov777/todo-app-golang/pkg/service"
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 )
 
 func main() {
@@ -26,21 +28,21 @@ func main() {
 	}
 
 	db, err := repository.NewPostgresDB(repository.Config{
-		Host: viper.GetString("db.host"),
-		Port: viper.GetString("db.port"),
+		Host:     viper.GetString("db.host"),
+		Port:     viper.GetString("db.port"),
 		Username: viper.GetString("db.username"),
 		Password: os.Getenv("DB_PASSWORD"),
-		DBName: viper.GetString("db.dbname"),
-		SSLMode: viper.GetString("db.sslmode"),
+		DBName:   viper.GetString("db.dbname"),
+		SSLMode:  viper.GetString("db.sslmode"),
 	})
 
 	if err != nil {
 		logrus.Fatalf("failed to initialize DB: %s", err.Error())
 	}
 
-	repos := repository.NewRepository(db);
-	services := service.NewService(repos);
-	handlers := handler.NewHandler(services);
+	repos := repository.NewRepository(db)
+	services := service.NewService(repos)
+	handlers := handler.NewHandler(services)
 
 	srv := new(todo.Server)
 
@@ -53,10 +55,10 @@ func main() {
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
-	<- quit // строка для чтения из канала которая выполняет блокировку главной горутины main
+	<-quit // строка для чтения из канала которая выполняет блокировку главной горутины main
 
 	logrus.Print("Todo App shutting down")
-	if err := srv.Shotdown(context.Background()); err != nil {
+	if err := srv.Shutdown(context.Background()); err != nil {
 		logrus.Errorf("error occuring on server shutting down: %s", err.Error())
 	}
 	if err := db.Close(); err != nil {

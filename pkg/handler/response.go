@@ -14,6 +14,6 @@ type statusResponse struct {
 }
 
 func newErrorResponse(c *gin.Context, statusCode int, message string) {
-	logrus.Errorf(message)
+	logrus.Error(message)
 	c.AbortWithStatusJSON(statusCode, errorResponse{message})
 }
